@@ -24,7 +24,6 @@ public class Host {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    @JsonIgnore
     private Long id;
 
     private String name;

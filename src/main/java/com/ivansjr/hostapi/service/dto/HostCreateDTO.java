@@ -6,22 +6,24 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
 @Data
-public class HostDTO {
+public class HostCreateDTO {
 
     @NotBlank(message = "O campo nome não pode ser em branco")
     private String name;
 
-    @NotBlank(message = "O campo nome não pode ser em branco")
+    @NotBlank(message = "O campo telefone não pode ser em branco")
     private String phone;
 
-    @NotBlank(message = "O campo nome não pode ser em branco")
+    @NotBlank(message = "O campo cpf não pode ser em branco")
     private String document;
 
-    @NotNull(message = "O campo nome não pode ser em branco")
+    @NotNull(message = "O campo data de aniversário não pode ser em branco")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
+
+    @NotNull(message = "O campo tem carro? não pode ser em branco")
+    private Boolean hasCar;
 
 }

@@ -3,7 +3,8 @@ package com.ivansjr.hostapi.api;
 import com.ivansjr.hostapi.domain.Host;
 import com.ivansjr.hostapi.service.HostService;
 import com.ivansjr.hostapi.service.dto.CheckInUpdateDTO;
-import com.ivansjr.hostapi.service.dto.HostDTO;
+import com.ivansjr.hostapi.service.dto.HostCreateDTO;
+import com.ivansjr.hostapi.service.dto.HostResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,33 +22,33 @@ public class HostResource {
     }
 
     @PostMapping
-    public ResponseEntity<Host> createHost(@RequestBody HostDTO hostDTO) {
-        Host createdHost = hostService.create(hostDTO);
+    public ResponseEntity<Host> createHost(@RequestBody HostCreateDTO hostCreateDTO) {
+        Host createdHost = hostService.create(hostCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdHost);
     }
 
     @GetMapping
-    public ResponseEntity<List<Host>> findAllHostOrderByEntryDate() {
+    public ResponseEntity<List<HostResponseDTO>> findAllHostOrderByEntryDate() {
         return ResponseEntity.ok(hostService.getAll());
     }
 
     @GetMapping(value = "/in-hotel")
-    public ResponseEntity<List<Host>> findAllInHotel() {
+    public ResponseEntity<List<HostResponseDTO>> findAllInHotel() {
         return ResponseEntity.ok(hostService.getAllInHotel());
     }
 
     @GetMapping(value = "/out-hotel")
-    public ResponseEntity<List<Host>> findAllOutHotel() {
+    public ResponseEntity<List<HostResponseDTO>> findAllOutHotel() {
         return ResponseEntity.ok(hostService.getAllOutHotel());
     }
 
     @GetMapping(value = "/document/{document}")
-    public ResponseEntity<List<Host>> findAllHostByDocument(@PathVariable String document) {
+    public ResponseEntity<List<HostResponseDTO>> findAllHostByDocument(@PathVariable String document) {
         return ResponseEntity.ok(hostService.getAllByDocument(document));
     }
 
     @GetMapping(value = "/phone/{phone}")
-    public ResponseEntity<List<Host>> findAllHostByPhone(@PathVariable String phone) {
+    public ResponseEntity<List<HostResponseDTO>> findAllHostByPhone(@PathVariable String phone) {
         return ResponseEntity.ok(hostService.getAllByPhone(phone));
     }
 

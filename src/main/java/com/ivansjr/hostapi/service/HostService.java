@@ -5,7 +5,8 @@ import com.ivansjr.hostapi.domain.Host;
 import com.ivansjr.hostapi.repository.CheckInRepository;
 import com.ivansjr.hostapi.repository.HostRepository;;
 import com.ivansjr.hostapi.service.dto.CheckInUpdateDTO;
-import com.ivansjr.hostapi.service.dto.HostDTO;
+import com.ivansjr.hostapi.service.dto.HostCreateDTO;
+import com.ivansjr.hostapi.service.dto.HostResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,49 +26,47 @@ public class HostService {
         this.checkInRepository = checkInRepository;
     }
 
-    public Host create(HostDTO hostDTO) {
-        Host savedHost = createHost(hostDTO);
-
-        return hostRepository.save(savedHost);
+    public Host create(HostCreateDTO hostCreateDTO) {
+        return createHost(hostCreateDTO);
     }
 
     @Transactional(readOnly = true)
-    public List<Host> getAll() {
-        return hostRepository.findAllByOrderByCheckInEntryDateAsc();
+    public List<HostResponseDTO> getAll() {
+        return hostRepository.findAllHosts();
     }
 
     @Transactional(readOnly = true)
-    public List<Host> getAllInHotel() {
+    public List<HostResponseDTO> getAllInHotel() {
         return hostRepository.findByCheckInIsInTheHotelTrue();
     }
 
     @Transactional(readOnly = true)
-    public List<Host> getAllOutHotel() {
+    public List<HostResponseDTO> getAllOutHotel() {
         return hostRepository.findByCheckInIsInTheHotelFalse();
     }
 
     @Transactional(readOnly = true)
-    public List<Host> getAllByDocument(String document) {
+    public List<HostResponseDTO> getAllByDocument(String document) {
         return hostRepository.findAllByDocument(document);
     }
 
     @Transactional(readOnly = true)
-    public List<Host> getAllByPhone(String phone) {
+    public List<HostResponseDTO> getAllByPhone(String phone) {
         return hostRepository.findAllByPhone(phone);
     }
 
-    private Host createHost(HostDTO hostDTO) {
+    private Host createHost(HostCreateDTO hostCreateDTO) {
         Host host = new Host();
-        host.setName(hostDTO.getName());
-        host.setPhone(hostDTO.getPhone());
-        host.setDocument(hostDTO.getDocument());
-        host.setBirthdate(hostDTO.getBirthdate());
+        host.setName(hostCreateDTO.getName());
+        host.setPhone(hostCreateDTO.getPhone());
+        host.setDocument(hostCreateDTO.getDocument());
+        host.setBirthdate(hostCreateDTO.getBirthdate());
 
         CheckIn checkIn = new CheckIn();
         checkIn.setEntryDate(OffsetDateTime.now());
         host.setCheckIn(checkIn);
         checkIn.setHost(host);
-
+        checkIn.setHasCar(hostCreateDTO.getHasCar());
         CheckIn savedCheckIn = checkInRepository.save(checkIn);
 
         host.setCheckIn(savedCheckIn);
