@@ -41,12 +41,12 @@ public class HostResource {
         return ResponseEntity.ok(hostService.getAllOutHotel());
     }
 
-    @GetMapping(value = "/{document}")
+    @GetMapping(value = "/document/{document}")
     public ResponseEntity<List<Host>> findAllHostByDocument(@PathVariable String document) {
         return ResponseEntity.ok(hostService.getAllByDocument(document));
     }
 
-    @GetMapping(value = "/{phone}")
+    @GetMapping(value = "/phone/{phone}")
     public ResponseEntity<List<Host>> findAllHostByPhone(@PathVariable String phone) {
         return ResponseEntity.ok(hostService.getAllByPhone(phone));
     }
