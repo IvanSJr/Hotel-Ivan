@@ -27,32 +27,25 @@ public class HostResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdHost);
     }
 
-    @GetMapping
-    public ResponseEntity<List<HostResponseDTO>> findAllHostOrderByEntryDate() {
-        return ResponseEntity.ok(hostService.getAll());
+    @GetMapping()
+    public ResponseEntity<List<HostResponseDTO>> searchHosts(@RequestParam(required = false, defaultValue = "") String textSearch) {
+        List<HostResponseDTO> searchedHosts = hostService.getAll(textSearch);
+        return ResponseEntity.ok(searchedHosts);
     }
 
-    @GetMapping(value = "/in-hotel")
-    public ResponseEntity<List<HostResponseDTO>> findAllInHotel() {
-        return ResponseEntity.ok(hostService.getAllInHotel());
+    @GetMapping("/in-hotel")
+    public ResponseEntity<List<HostResponseDTO>> searchHostsInHotel(@RequestParam(required = false, defaultValue = "") String textSearch) {
+        List<HostResponseDTO> searchedHostsInHotel = hostService.getAllInHotel(textSearch);
+        return ResponseEntity.ok(searchedHostsInHotel);
     }
 
-    @GetMapping(value = "/out-hotel")
-    public ResponseEntity<List<HostResponseDTO>> findAllOutHotel() {
-        return ResponseEntity.ok(hostService.getAllOutHotel());
+    @GetMapping("/out-hotel")
+    public ResponseEntity<List<HostResponseDTO>> searchHostsOutHotel(@RequestParam(required = false, defaultValue = "") String textSearch) {
+        List<HostResponseDTO> searchedHostsOutHotel = hostService.getAllOutHotel(textSearch);
+        return ResponseEntity.ok(searchedHostsOutHotel);
     }
 
-    @GetMapping(value = "/document/{document}")
-    public ResponseEntity<List<HostResponseDTO>> findAllHostByDocument(@PathVariable String document) {
-        return ResponseEntity.ok(hostService.getAllByDocument(document));
-    }
-
-    @GetMapping(value = "/phone/{phone}")
-    public ResponseEntity<List<HostResponseDTO>> findAllHostByPhone(@PathVariable String phone) {
-        return ResponseEntity.ok(hostService.getAllByPhone(phone));
-    }
-
-    @PatchMapping("/{idHost}/checkin")
+    @PatchMapping("/{idHost}/check-in")
     public ResponseEntity<Void> updateCheckInStatus(@PathVariable Long idHost, @RequestBody CheckInUpdateDTO updateDTO) {
         hostService.updateCheckInStatus(idHost, updateDTO);
         return ResponseEntity.noContent().build();

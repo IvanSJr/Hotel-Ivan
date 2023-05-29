@@ -31,28 +31,18 @@ public class HostService {
     }
 
     @Transactional(readOnly = true)
-    public List<HostResponseDTO> getAll() {
-        return hostRepository.findAllHosts();
+    public List<HostResponseDTO> getAll(String search) {
+        return hostRepository.searchHostsByTerm(search);
     }
 
     @Transactional(readOnly = true)
-    public List<HostResponseDTO> getAllInHotel() {
-        return hostRepository.findByCheckInIsInTheHotelTrue();
+    public List<HostResponseDTO> getAllInHotel(String search) {
+        return hostRepository.searchHostsByTermAndCheckInIsInTheHotelTrue(search);
     }
 
     @Transactional(readOnly = true)
-    public List<HostResponseDTO> getAllOutHotel() {
-        return hostRepository.findByCheckInIsInTheHotelFalse();
-    }
-
-    @Transactional(readOnly = true)
-    public List<HostResponseDTO> getAllByDocument(String document) {
-        return hostRepository.findAllByDocument(document);
-    }
-
-    @Transactional(readOnly = true)
-    public List<HostResponseDTO> getAllByPhone(String phone) {
-        return hostRepository.findAllByPhone(phone);
+    public List<HostResponseDTO> getAllOutHotel(String search) {
+        return hostRepository.searchHostsByTermAndCheckInIsInTheHotelFalse(search);
     }
 
     private Host createHost(HostCreateDTO hostCreateDTO) {
